@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   ChevronRight,
@@ -122,65 +122,59 @@ function Nav() {
 }
 
 function Hero() {
-  return (
-    <section id="top" className="relative min-h-[92vh] w-full overflow-hidden">
-      {/* Fallback gradient */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-20"
-        style={{
-          background:
-            "radial-gradient(ellipse at 30% 20%, #1b2a0a 0%, #15171a 55%), radial-gradient(ellipse at 80% 80%, #1d0a2c 0%, transparent 60%)",
-        }}
-      />
-      <video
-        className="absolute inset-0 -z-10 h-full w-full object-cover opacity-100"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        poster=""
-      >
-        <source src={HERO_VIDEO} type="video/mp4" />
-      </video>
-      {/* Overlays */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(21,23,26,0.12) 0%, rgba(21,23,26,0.28) 55%, rgba(21,23,26,0.72) 100%)",
-        }}
-      />
-      <div aria-hidden className="dot-grid absolute inset-0 -z-10 opacity-20" />
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-      <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-center px-6 py-24">
-        <p
-          className="font-mono-eyebrow mb-6 inline-flex items-center gap-2"
-          style={{ textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
+  // Some browsers ignore the autoPlay attribute after client hydration, so
+  // kick playback off explicitly once the file is ready (muted autoplay is
+  // always permitted). This guarantees the hero shows a *running* video.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const play = () => v.play().catch(() => {});
+    play();
+    v.addEventListener("canplay", play, { once: true });
+    return () => v.removeEventListener("canplay", play);
+  }, []);
+
+  return (
+    <section id="top" className="relative w-full overflow-hidden">
+      {/* Brand video banner — plays/loops at the top of the page.
+          Capped at the source's native width (1280px) and centered so it never
+          upscales/distorts on ultra-wide displays; gutters fall back to the page bg. */}
+      <div className="relative mx-auto w-full max-w-[1280px]">
+        <video
+          ref={videoRef}
+          className="block h-[42vh] min-h-[260px] w-full object-cover sm:h-[50vh] lg:h-[58vh]"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
         >
+          <source src={HERO_VIDEO} type="video/mp4" />
+        </video>
+        {/* Fade the bottom edge of the video into the page background */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-background"
+        />
+      </div>
+
+      {/* Headline + copy, directly under the video */}
+      <div className="mx-auto max-w-7xl px-6 pb-20 pt-10 md:pt-14">
+        <p className="font-mono-eyebrow mb-6 inline-flex items-center gap-2">
           <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
           AI Automation for Business & Government
         </p>
-        <h1
-          className="font-heading text-[13vw] leading-[0.9] sm:text-7xl md:text-8xl lg:text-[8rem]"
-          style={{ textShadow: "0 4px 24px rgba(0,0,0,0.7)" }}
-        >
+        <h1 className="font-heading text-5xl leading-[0.92] sm:text-6xl md:text-7xl lg:text-[7rem]">
           IGNITE YOUR BUSINESS.
           <br />
           HARNESS THE <span className="text-primary">POWER.</span>
         </h1>
-        <p
-          className="font-mono-eyebrow mt-7"
-          style={{ color: "var(--primary)", textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}
-        >
+        <p className="font-mono-eyebrow mt-7" style={{ color: "var(--primary)" }}>
           Smart Technology · Honest Advice · Real Results
         </p>
-        <p
-          className="mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl"
-          style={{ textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}
-        >
+        <p className="mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
           We come in and create a hypernova of efficiency across your data, your workflows, and your
           team. What's left behind is a core of capability so powerful your business revolves around
           it.
@@ -910,8 +904,20 @@ function Contact() {
           ) : (
             <div className="grid gap-5">
               <div className="grid gap-5 sm:grid-cols-2">
-                <Field label="Your Name" name="name" placeholder="Jane Smith" required />
-                <Field label="Business Name" name="company" placeholder="Acme Co." required />
+                <Field
+                  label="Your Name"
+                  name="name"
+                  placeholder="Jane Smith"
+                  autoComplete="name"
+                  required
+                />
+                <Field
+                  label="Business Name"
+                  name="company"
+                  placeholder="Acme Co."
+                  autoComplete="organization"
+                  required
+                />
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field
@@ -919,9 +925,16 @@ function Contact() {
                   name="email"
                   type="email"
                   placeholder="jane@acme.com"
+                  autoComplete="email"
                   required
                 />
-                <Field label="Phone" name="phone" type="tel" placeholder="(555) 000-0000" />
+                <Field
+                  label="Phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="(555) 000-0000"
+                  autoComplete="tel"
+                />
               </div>
               <div className="grid gap-2">
                 <label className="font-mono-eyebrow" htmlFor="message">
@@ -960,12 +973,14 @@ function Field({
   type = "text",
   placeholder,
   required,
+  autoComplete,
 }: {
   label: string;
   name: string;
   type?: string;
   placeholder?: string;
   required?: boolean;
+  autoComplete?: string;
 }) {
   return (
     <div className="grid gap-2">
@@ -978,6 +993,7 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
+        autoComplete={autoComplete}
         className="rounded-md border border-input bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-[rgba(149,255,0,0.15)]"
       />
     </div>
