@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hypernova AI — Ignite Your Business. Harness the Power.</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --space: #06060f;
+    --space-2: #0b0b1a;
+    --space-3: #11112200;
+    --panel: #0e0e1f;
+    --panel-2: #13132a;
+    --purple: #7209b7;
+    --purple-light: #9d4edd;
+    --magenta: #f72585;
+    --blue: #4361ee;
+    --cyan: #4cc9f0;
+    --gold: #f5c542;
+    --gold-deep: #c89010;
+    --gold-pale: #fff1c4;
+    --orange: #f3722c;
+    --chrome-1: #ffffff;
+    --chrome-2: #c8c8d4;
+    --text: #ffffff;
+    --text-mid: rgba(255,255,255,0.66);
+    --text-dim: rgba(255,255,255,0.42);
+    --border: rgba(255,255,255,0.1);
+    --border-glow: rgba(157,78,221,0.3);
+    --radius: 14px;
+    --radius-lg: 22px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--space);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 { font-family: 'DM Sans', sans-serif; line-height: 1.15; font-weight: 700; }
+
+  .display { font-family: 'Orbitron', sans-serif; }
+
+  /* starfield background */
+  .starfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 80% 15%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1.5px 1.5px at 65% 50%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 50% 85%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 90% 75%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.35), transparent),
+      radial-gradient(1.5px 1.5px at 45% 30%, rgba(255,255,255,0.45), transparent);
+    background-size: 100% 100%;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(6,6,15,0.85);
+    backdrop-filter: blur(14px);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-logo svg { width: 42px; height: 42px; }
+  .nav-logo-text { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 1px;
+    background: linear-gradient(180deg, #fff 35%, #a8a8b8 55%, #f4f4f8 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .nav-logo-text .ai { color: var(--gold); -webkit-text-fill-color: var(--gold); }
+  .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+  .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--purple), var(--magenta)) !important;
+    color: #fff !important; padding: 10px 22px; border-radius: 9px; font-weight: 600 !important; font-size: 14px !important;
+    box-shadow: 0 4px 20px rgba(157,78,221,0.35); transition: all 0.2s !important;
+  }
+  .nav-cta:hover { box-shadow: 0 6px 28px rgba(247,37,133,0.5); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; align-items: center; padding: 110px 5% 80px; position: relative; overflow: hidden; }
+  .hero-glow-1 { position: absolute; top: 10%; right: -5%; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(114,9,183,0.25) 0%, transparent 65%); pointer-events: none; }
+  .hero-glow-2 { position: absolute; bottom: -10%; left: -10%; width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(247,37,133,0.12) 0%, transparent 65%); pointer-events: none; }
+  .hero-content { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(157,78,221,0.12); border: 1px solid var(--border-glow);
+    color: var(--purple-light); padding: 7px 16px; border-radius: 100px; font-size: 13px; font-weight: 500; margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
+  .hero-badge-dot { width: 6px; height: 6px; background: var(--magenta); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(247,37,133,0.5); } 50% { opacity: 0.5; box-shadow: 0 0 0 6px rgba(247,37,133,0); } }
+  .hero h1 { font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1.08; margin-bottom: 24px; animation: fadeUp 0.6s ease 0.1s both; font-weight: 700; }
+  .hero h1 .grad { background: linear-gradient(120deg, var(--gold-pale), var(--gold) 40%, var(--magenta) 75%, var(--purple-light));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero-tagline { font-family: 'Orbitron', sans-serif; font-size: 15px; letter-spacing: 3px; color: var(--gold); margin-bottom: 20px; text-transform: uppercase; animation: fadeUp 0.6s ease 0.2s both; }
+  .hero-sub { font-size: 17px; color: var(--text-mid); margin-bottom: 38px; line-height: 1.75; max-width: 540px; animation: fadeUp 0.6s ease 0.28s both; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp 0.6s ease 0.36s both; }
+
+  .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--purple), var(--magenta));
+    color: #fff; padding: 15px 30px; border-radius: 11px; font-size: 15px; font-weight: 600; text-decoration: none; border: none; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(157,78,221,0.4); transition: all 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(247,37,133,0.55); }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); color: #fff; padding: 15px 30px;
+    border-radius: 11px; font-size: 15px; font-weight: 500; text-decoration: none; border: 1px solid var(--border); transition: all 0.2s; }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--purple-light); }
+
+  /* hero visual - big logo */
+  .hero-visual { display: flex; align-items: center; justify-content: center; animation: fadeUp 0.8s ease 0.4s both; }
+  .hero-visual svg { width: 100%; max-width: 440px; height: auto; filter: drop-shadow(0 0 40px rgba(157,78,221,0.4)); }
+
+  /* SECTIONS */
+  section { padding: 100px 5%; position: relative; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 16px; }
+  .section-title { font-size: clamp(2rem, 3.5vw, 2.9rem); margin-bottom: 20px; line-height: 1.15; }
+  .section-title .grad { background: linear-gradient(120deg, var(--purple-light), var(--magenta));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-sub { font-size: 17px; color: var(--text-mid); max-width: 620px; line-height: 1.75; }
+
+  /* PROBLEM */
+  .problem-section { background: linear-gradient(180deg, var(--space) 0%, var(--space-2) 100%); }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 56px; }
+  .problem-list { list-style: none; }
+  .problem-item { display: flex; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); opacity: 0; transform: translateX(-20px); transition: all 0.5s ease; }
+  .problem-item.visible { opacity: 1; transform: translateX(0); }
+  .problem-item:last-child { border-bottom: none; }
+  .problem-icon { width: 46px; height: 46px; background: rgba(157,78,221,0.12); border: 1px solid var(--border-glow); border-radius: 11px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 20px; }
+  .problem-item h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .problem-item p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+  .problem-callout { background: linear-gradient(155deg, var(--panel-2), var(--panel)); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 48px 40px; position: relative; overflow: hidden; }
+  .problem-callout::before { content: ''; position: absolute; top: -50%; right: -30%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(247,37,133,0.15), transparent 70%); }
+  .problem-callout h3 { font-size: 1.9rem; margin-bottom: 16px; line-height: 1.3; position: relative; }
+  .problem-callout h3 .grad { background: linear-gradient(120deg, var(--gold), var(--magenta)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .problem-callout p { color: var(--text-mid); font-size: 15px; line-height: 1.75; margin-bottom: 28px; position: relative; }
+  .callout-quote { background: rgba(157,78,221,0.1); border-left: 3px solid var(--magenta); padding: 16px 20px; border-radius: 0 8px 8px 0; font-size: 15px; color: rgba(255,255,255,0.85); font-style: italic; line-height: 1.65; position: relative; }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .service-card { background: linear-gradient(165deg, var(--panel-2), var(--panel)); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 32px 28px; transition: all 0.35s ease; position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); }
+  .service-card.visible { opacity: 1; transform: translateY(0); }
+  .service-card:hover { border-color: var(--border-glow); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(114,9,183,0.25); }
+  .service-card.featured { grid-column: span 3; background: linear-gradient(135deg, rgba(114,9,183,0.18), rgba(247,37,133,0.1)); border-color: var(--border-glow); }
+  .service-card-icon { width: 54px; height: 54px; background: rgba(157,78,221,0.14); border: 1px solid var(--border-glow); border-radius: 13px;
+    display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 20px; }
+  .service-card h3 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+  .service-card p { font-size: 14px; color: var(--text-dim); line-height: 1.65; }
+  .service-card-tag { display: inline-block; background: rgba(245,197,66,0.14); color: var(--gold); font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px; padding: 4px 11px; border-radius: 100px; margin-bottom: 14px; }
+
+  /* AUDIT */
+  .audit-section { background: linear-gradient(180deg, var(--space-2), var(--space)); }
+  .audit-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+  .audit-steps { list-style: none; margin-top: 36px; }
+  .audit-step { display: flex; gap: 20px; margin-bottom: 28px; }
+  .audit-step-num { width: 38px; height: 38px; background: rgba(157,78,221,0.15); border: 1px solid var(--border-glow); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--purple-light); flex-shrink: 0; font-family: 'Orbitron', sans-serif; }
+  .audit-step h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .audit-step p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+  .audit-price-card { background: linear-gradient(155deg, var(--panel-2), var(--panel)); border: 1px solid var(--border-glow); border-radius: var(--radius-lg); padding: 42px; position: relative; overflow: hidden; }
+  .audit-price-card::before { content: ''; position: absolute; top: -40%; right: -30%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(114,9,183,0.2), transparent 70%); }
+  .audit-price-big { font-family: 'Orbitron', sans-serif; font-size: 72px; font-weight: 900; line-height: 1; margin-bottom: 8px; position: relative;
+    background: linear-gradient(120deg, var(--gold-pale), var(--gold)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .audit-price-big span { font-size: 32px; vertical-align: super; }
+  .audit-price-label { font-size: 14px; color: var(--text-dim); margin-bottom: 28px; position: relative; }
+  .audit-includes { list-style: none; margin-bottom: 32px; position: relative; }
+  .audit-includes li { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: var(--text-mid); padding: 10px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+  .audit-includes li:last-child { border-bottom: none; }
+  .check { color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  /* HOW */
+  .how-section { background: var(--space); }
+  .steps-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 64px; position: relative; }
+  .steps-row::before { content: ''; position: absolute; top: 38px; left: 18%; right: 18%; height: 2px; background: linear-gradient(90deg, var(--purple), var(--magenta)); opacity: 0.35; }
+  .step-item { text-align: center; padding: 0 24px; position: relative; }
+  .step-circle { width: 76px; height: 76px; background: linear-gradient(135deg, var(--panel-2), var(--panel)); border: 1px solid var(--border-glow); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 700; color: var(--gold); position: relative; z-index: 1;
+    box-shadow: 0 0 30px rgba(114,9,183,0.3); }
+  .step-item h3 { font-size: 17px; font-weight: 600; color: #fff; margin-bottom: 12px; }
+  .step-item p { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+
+  /* DEEP DIVES */
+  .deep-dives-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 56px; }
+  .deep-card { background: linear-gradient(165deg, var(--panel-2), var(--panel)); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px 32px; transition: all 0.3s; }
+  .deep-card:hover { border-color: var(--border-glow); box-shadow: 0 16px 48px rgba(114,9,183,0.2); }
+  .deep-card-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+  .deep-card h3 { font-size: 19px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+  .deep-card > p { font-size: 14px; color: var(--text-mid); line-height: 1.7; margin-bottom: 20px; }
+  .deep-features { list-style: none; }
+  .deep-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--text-mid); padding: 7px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+  .deep-features li:last-child { border-bottom: none; }
+  .deep-features li::before { content: '▸'; color: var(--gold); font-weight: 600; flex-shrink: 0; }
+  .process-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 20px; }
+  .process-step { text-align: center; }
+  .process-step-num { width: 40px; height: 40px; background: rgba(157,78,221,0.14); border: 1px solid var(--border-glow); border-radius: 11px;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 13px; font-weight: 700; color: var(--purple-light); font-family: 'Orbitron', sans-serif; }
+  .process-step h5 { font-size: 12px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .process-step p { font-size: 11px; color: var(--text-dim); line-height: 1.5; }
+
+  /* TRAINING */
+  .training-section { background: linear-gradient(180deg, var(--space), var(--space-2)); }
+  .training-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+  .path-card { background: linear-gradient(165deg, var(--panel-2), var(--panel)); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; transition: all 0.3s; }
+  .path-card:hover { border-color: var(--border-glow); box-shadow: 0 12px 32px rgba(114,9,183,0.2); }
+  .path-level { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; padding: 4px 11px; border-radius: 100px; display: inline-block; margin-bottom: 14px; }
+  .level-basic { background: rgba(76,201,240,0.14); color: var(--cyan); }
+  .level-intermediate { background: rgba(245,197,66,0.14); color: var(--gold); }
+  .level-advanced { background: rgba(247,37,133,0.14); color: var(--magenta); }
+  .path-card h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; line-height: 1.4; }
+  .path-card p { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+  .training-pricing { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+  .training-price-card { background: linear-gradient(135deg, rgba(114,9,183,0.16), rgba(247,37,133,0.08)); border: 1px solid var(--border-glow); border-radius: var(--radius); padding: 28px 26px; }
+  .training-price-card h4 { font-size: 13px; font-weight: 500; color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .training-price-card .price { font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 4px; }
+  .training-price-card .price span { font-size: 16px; color: var(--text-mid); font-family: 'DM Sans', sans-serif; font-weight: 400; }
+  .training-price-card .price-note { font-size: 13px; color: var(--text-dim); }
+
+  /* PRICING */
+  .pricing-section { background: var(--space-2); }
+  .pricing-table { width: 100%; border-collapse: collapse; margin-top: 48px; background: linear-gradient(165deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .pricing-table th { background: rgba(114,9,183,0.15); color: var(--text-mid); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; padding: 18px 24px; text-align: left; font-family: 'Orbitron', sans-serif; }
+  .pricing-table td { padding: 16px 24px; font-size: 14px; border-bottom: 1px solid var(--border); color: var(--text-mid); }
+  .pricing-table tr:last-child td { border-bottom: none; }
+  .pricing-table td:first-child { font-weight: 500; color: #fff; }
+  .pricing-table td:last-child { font-weight: 700; color: var(--gold); }
+  .pricing-note { text-align: center; margin-top: 24px; font-size: 14px; color: var(--text-dim); font-style: italic; }
+
+  /* WHY */
+  .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+  .why-card { padding: 28px 24px; border-radius: var(--radius); border: 1px solid var(--border); background: linear-gradient(165deg, var(--panel-2), var(--panel)); transition: all 0.3s; }
+  .why-card:hover { border-color: var(--border-glow); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(114,9,183,0.2); }
+  .why-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+  .why-card h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .why-card p { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+
+  /* CONTACT */
+  .contact-section { background: linear-gradient(180deg, var(--space-2), var(--space)); }
+  .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: start; }
+  .contact-details { margin-top: 40px; list-style: none; }
+  .contact-details li { display: flex; align-items: center; gap: 14px; font-size: 15px; color: var(--text-mid); padding: 13px 0; border-bottom: 1px solid var(--border); }
+  .contact-details li:last-child { border-bottom: none; }
+  .contact-details .ci { font-size: 18px; width: 22px; text-align: center; flex-shrink: 0; }
+  .contact-form { background: linear-gradient(155deg, var(--panel-2), var(--panel)); border: 1px solid var(--border-glow); border-radius: var(--radius-lg); padding: 40px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-dim); margin-bottom: 8px; }
+  .form-group input, .form-group textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 9px; padding: 13px 16px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; color: #fff; outline: none; transition: border-color 0.2s; }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--purple-light); }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .form-submit { width: 100%; background: linear-gradient(135deg, var(--purple), var(--magenta)); color: #fff; border: none; padding: 15px;
+    border-radius: 11px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 6px; box-shadow: 0 6px 24px rgba(157,78,221,0.4); }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(247,37,133,0.55); }
+
+  /* FOOTER */
+  footer { background: #04040a; padding: 48px 5% 32px; border-top: 1px solid var(--border); }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-logo-row { display: flex; align-items: center; gap: 12px; }
+  .footer-logo-row svg { width: 38px; height: 38px; }
+  .footer-logo-text { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 1px; color: #fff; }
+  .footer-tagline { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+  .footer-links { display: flex; gap: 28px; list-style: none; }
+  .footer-links a { font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: #fff; }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); width: 100%; text-align: center; padding-top: 28px; border-top: 1px solid var(--border); margin-top: 10px; }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 900px) {
+    .hero-content { grid-template-columns: 1fr; gap: 48px; }
+    .hero-visual { order: -1; }
+    .hero-visual svg { max-width: 300px; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .service-card.featured { grid-column: span 2; }
+    .audit-inner { grid-template-columns: 1fr; gap: 48px; }
+    .steps-row { grid-template-columns: 1fr; gap: 40px; }
+    .steps-row::before { display: none; }
+    .deep-dives-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: repeat(5, 1fr); }
+    .training-grid { grid-template-columns: 1fr 1fr; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+    .nav-links { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .services-grid, .service-card.featured, .training-grid, .why-grid, .training-pricing { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: repeat(2, 1fr); }
+    section { padding: 70px 5%; }
+  }
+</style>
+</head>
+<body>
+<div class="starfield"></div>
+<div class="wrap">
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="navcore" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff"/><stop offset="20%" stop-color="#fff3c4"/>
+          <stop offset="45%" stop-color="#ffd166"/><stop offset="70%" stop-color="#f3722c"/><stop offset="100%" stop-color="#7209b7"/>
+        </radialGradient>
+        <radialGradient id="navdisc" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffe8a3" stop-opacity="0.95"/><stop offset="40%" stop-color="#f72585" stop-opacity="0.7"/><stop offset="100%" stop-color="#4361ee" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <g transform="translate(50,50)">
+        <g transform="rotate(-25)"><ellipse cx="0" cy="0" rx="42" ry="13" fill="url(#navdisc)"/>
+        <ellipse cx="0" cy="0" rx="42" ry="13" fill="none" stroke="#ffe8a3" stroke-width="1" opacity="0.7"/></g>
+        <g stroke="#ffd166" stroke-width="1.5" stroke-linecap="round"><line x1="-22" y1="0" x2="-14" y2="0"/><line x1="22" y1="0" x2="14" y2="0"/></g>
+        <circle cx="0" cy="0" r="12" fill="url(#navcore)"/><circle cx="0" cy="0" r="4" fill="#fff"/>
+      </g>
+    </svg>
+    <span class="nav-logo-text">HYPERNOVA <span class="ai">AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#audit">AI Audit</a></li>
+    <li><a href="#training">Training</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact" class="nav-cta">Book an Audit</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge"><div class="hero-badge-dot"></div>AI Automation for Business & Government</div>
+      <h1>Ignite your business.<br><span class="grad">Harness the power.</span></h1>
+      <p class="hero-tagline">Smart Technology · Honest Advice · Real Results</p>
+      <p class="hero-sub">We come in and create a hypernova of efficiency across your data, your workflows, and your team. What's left behind is a core of capability so powerful your business revolves around it.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Book Your AI Audit — $199 →</a>
+        <a href="#services" class="btn-secondary">Explore Services</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="hcore" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff"/><stop offset="18%" stop-color="#fff3c4"/><stop offset="42%" stop-color="#ffd166"/><stop offset="68%" stop-color="#f3722c"/><stop offset="100%" stop-color="#7209b7"/>
+          </radialGradient>
+          <radialGradient id="hdisc" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffe8a3" stop-opacity="0.95"/><stop offset="40%" stop-color="#f72585" stop-opacity="0.7"/><stop offset="100%" stop-color="#4361ee" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="hhalo" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffd166" stop-opacity="0.45"/><stop offset="55%" stop-color="#f3722c" stop-opacity="0.14"/><stop offset="100%" stop-color="#7209b7" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="hjet" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#4cc9f0" stop-opacity="0"/><stop offset="42%" stop-color="#ffffff" stop-opacity="0.98"/><stop offset="58%" stop-color="#ffffff" stop-opacity="0.98"/><stop offset="100%" stop-color="#4cc9f0" stop-opacity="0"/>
+          </linearGradient>
+          <filter id="hsg" x="-120%" y="-120%" width="340%" height="340%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="hbb" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="16"/></filter>
+          <filter id="hjb" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="4"/></filter>
+          <filter id="hspk" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <g transform="translate(200,200)">
+          <circle cx="0" cy="0" r="95" fill="url(#hhalo)" filter="url(#hbb)"/>
+          <g transform="rotate(-25)">
+            <ellipse cx="0" cy="0" rx="125" ry="37" fill="url(#hdisc)" filter="url(#hsg)"/>
+            <ellipse cx="0" cy="0" rx="125" ry="37" fill="none" stroke="#ffe8a3" stroke-width="1.5" opacity="0.8"/>
+            <ellipse cx="0" cy="0" rx="88" ry="24" fill="none" stroke="#f72585" stroke-width="1" opacity="0.6"/>
+          </g>
+          <g transform="rotate(-25)" filter="url(#hjb)">
+            <polygon points="-7,-36 7,-36 20,-135 -20,-135" fill="url(#hjet)"/>
+            <polygon points="-7,36 7,36 20,135 -20,135" fill="url(#hjet)"/>
+          </g>
+          <g filter="url(#hspk)">
+            <line x1="-70" y1="0" x2="-44" y2="0" stroke="#ffd166" stroke-width="3" stroke-linecap="round"/>
+            <line x1="-62" y1="-22" x2="-40" y2="-12" stroke="#f3722c" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="-62" y1="22" x2="-40" y2="12" stroke="#f3722c" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="70" y1="0" x2="44" y2="0" stroke="#ffd166" stroke-width="3" stroke-linecap="round"/>
+            <line x1="62" y1="-22" x2="40" y2="-12" stroke="#f3722c" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="62" y1="22" x2="40" y2="12" stroke="#f3722c" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+          <circle cx="0" cy="0" r="52" fill="#ffd166" opacity="0.4" filter="url(#hbb)"/>
+          <circle cx="0" cy="0" r="34" fill="url(#hcore)" filter="url(#hsg)"/>
+          <circle cx="0" cy="0" r="12" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <div class="section-inner">
+    <div class="section-label">The Challenge</div>
+    <h2 class="section-title">Most businesses are leaving <span class="grad">AI on the table</span></h2>
+    <div class="problem-grid">
+      <ul class="problem-list">
+        <li class="problem-item"><div class="problem-icon">📂</div><div><h4>Unstructured, scattered data</h4><p>PDFs, old spreadsheets, paper forms — AI can't use any of it in that state. Without clean, structured data, AI has no context and can't function well.</p></div></li>
+        <li class="problem-item"><div class="problem-icon">⏱️</div><div><h4>Time lost to manual work</h4><p>Hours spent on repetitive, low-value tasks that AI could handle automatically — every day. That's time stolen from actually running your business.</p></div></li>
+        <li class="problem-item"><div class="problem-icon">🤷</div><div><h4>No clear starting point</h4><p>The AI landscape is overwhelming. Too many tools, too much hype, and no honest guidance on what actually fits a business like yours.</p></div></li>
+        <li class="problem-item"><div class="problem-icon">💸</div><div><h4>Enterprise solutions built for giants</h4><p>The AI infrastructure big companies pay millions for isn't accessible to small businesses — until now.</p></div></li>
+      </ul>
+      <div class="problem-callout">
+        <h3>Your data is your most <span class="grad">valuable asset.</span></h3>
+        <p>The difference between a business that thrives with AI and one that doesn't isn't budget or team size — it's knowing where to start and having the right foundation in place. We believe AI is best built from the bottom up.</p>
+        <div class="callout-quote">"We get paid to listen to exactly what you need — and then we build it. No templates, no generic solutions, no guesswork."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Five services. <span class="grad">One unstoppable core.</span></h2>
+    <p class="section-sub">Every service is designed to work on its own — or as part of a complete AI transformation for your business.</p>
+    <div class="services-grid">
+      <div class="service-card featured reveal">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center;">
+          <div>
+            <div class="service-card-tag">⭐ Flagship Service</div>
+            <div class="service-card-icon">🔍</div>
+            <h3 style="font-size:23px; margin-bottom:12px;">The AI Audit</h3>
+            <p style="font-size:15px; margin-bottom:20px; color:var(--text-mid);">The smartest first step any business can take. We listen, assess, and deliver a customized AI Readiness Report — then show you exactly what to do next. Starts at $199.</p>
+            <a href="#audit" class="btn-primary">Learn More →</a>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div style="background:rgba(157,78,221,0.1); border:1px solid var(--border-glow); border-radius:11px; padding:18px;"><div style="font-size:22px; margin-bottom:8px;">📋</div><div style="font-size:13px; color:var(--text-mid); line-height:1.5;">Custom AI Readiness Report</div></div>
+            <div style="background:rgba(157,78,221,0.1); border:1px solid var(--border-glow); border-radius:11px; padding:18px;"><div style="font-size:22px; margin-bottom:8px;">🗺️</div><div style="font-size:13px; color:var(--text-mid); line-height:1.5;">Prioritized roadmap</div></div>
+            <div style="background:rgba(157,78,221,0.1); border:1px solid var(--border-glow); border-radius:11px; padding:18px;"><div style="font-size:22px; margin-bottom:8px;">💬</div><div style="font-size:13px; color:var(--text-mid); line-height:1.5;">Follow-up walkthrough</div></div>
+            <div style="background:rgba(157,78,221,0.1); border:1px solid var(--border-glow); border-radius:11px; padding:18px;"><div style="font-size:22px; margin-bottom:8px;">✅</div><div style="font-size:13px; color:var(--text-mid); line-height:1.5;">No jargon. Honest advice.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card reveal"><div class="service-card-icon">🎓</div><div class="service-card-tag">Education</div><h3>Training & Education</h3><p>Hands-on AI training for teams and individuals across five tailored learning paths — from beginner to advanced technical users. From $199/person.</p></div>
+      <div class="service-card reveal"><div class="service-card-icon">🤖</div><div class="service-card-tag">Implementation</div><h3>Professional AI Implementation</h3><p>We design, build, and deploy AI infrastructure for your business — agents, data systems, automation, and dashboards. Custom quote.</p></div>
+      <div class="service-card reveal"><div class="service-card-icon">💳</div><div class="service-card-tag">Operations</div><h3>Expenditure Monitoring</h3><p>Snap a photo of a receipt and let AI handle the rest. Automated expense tracking, categorization, and reporting without the manual work.</p></div>
+      <div class="service-card reveal"><div class="service-card-icon">💬</div><div class="service-card-tag">Engagement</div><h3>Customer Engagement Automation</h3><p>Automated review responses and customer re-engagement campaigns — CRM-level results without the CRM price tag.</p></div>
+      <div class="service-card reveal"><div class="service-card-icon">📱</div><div class="service-card-tag">Marketing</div><h3>Social Media & Content Pipeline</h3><p>AI-powered trend monitoring and content creation that makes your business look like it has a full marketing team — at a fraction of the cost.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIT -->
+<section class="audit-section" id="audit">
+  <div class="section-inner">
+    <div class="audit-inner">
+      <div>
+        <div class="section-label">Our Core Offering</div>
+        <h2 class="section-title">Start with the <span class="grad">AI Audit</span></h2>
+        <p class="section-sub">AI is the most talked-about topic in business today — and one of the least understood. Most owners know they need to be doing something with AI but have no idea where to start. That's exactly the gap we fill.</p>
+        <ul class="audit-steps">
+          <li class="audit-step"><div class="audit-step-num">1</div><div><h4>Discovery Session (30–60 min)</h4><p>We sit with you and listen — no pitch, no agenda. You tell us where your time goes and where the pain points are.</p></div></li>
+          <li class="audit-step"><div class="audit-step-num">2</div><div><h4>Your AI Readiness Report</h4><p>We produce a branded, prioritized report identifying the best tools, strategies, and quick wins for your specific business.</p></div></li>
+          <li class="audit-step"><div class="audit-step-num">3</div><div><h4>Follow-Up Walkthrough (30 min)</h4><p>We walk you through every recommendation. Then it's your call — take the roadmap and run, or let us build it for you.</p></div></li>
+        </ul>
+      </div>
+      <div class="audit-price-card reveal">
+        <div class="audit-price-big"><span>$</span>199</div>
+        <div class="audit-price-label">Flat fee — no surprises</div>
+        <ul class="audit-includes">
+          <li><span class="check">✦</span>30–60 minute discovery session with an AI expert</li>
+          <li><span class="check">✦</span>Custom AI Readiness Report built for your business</li>
+          <li><span class="check">✦</span>Prioritized tool recommendations & implementation roadmap</li>
+          <li><span class="check">✦</span>Estimated time and cost savings analysis</li>
+          <li><span class="check">✦</span>30-minute follow-up walkthrough of the full report</li>
+          <li><span class="check">✦</span>No jargon. No pressure. Just honest advice.</li>
+        </ul>
+        <a href="#contact" class="btn-primary" style="width:100%; justify-content:center; font-size:16px; padding:16px;">Book Your AI Audit →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how-section" id="how">
+  <div class="section-inner" style="text-align:center;">
+    <div class="section-label">The Process</div>
+    <h2 class="section-title">Three steps to <span class="grad">AI that actually works</span></h2>
+    <p class="section-sub" style="margin:0 auto;">Every client journey follows the same proven path — simple, transparent, and built around your business.</p>
+    <div class="steps-row">
+      <div class="step-item reveal"><div class="step-circle">1</div><h3>Book an AI Audit</h3><p>Tell us about your business, your daily frustrations, and where you're losing the most time. We do the rest.</p></div>
+      <div class="step-item reveal"><div class="step-circle">2</div><h3>Get Your Roadmap</h3><p>Receive a custom AI Readiness Report with prioritized recommendations, specific tools, and a clear path forward.</p></div>
+      <div class="step-item reveal"><div class="step-circle">3</div><h3>We Build It Together</h3><p>Take the roadmap and act on it yourself — or let us implement everything for you. Either way, you win.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEEP DIVES -->
+<section id="implementation">
+  <div class="section-inner">
+    <div class="section-label">Implementation Services</div>
+    <h2 class="section-title">We don't just advise. <span class="grad">We build.</span></h2>
+    <p class="section-sub">For businesses ready to move beyond advice and into action — we design, build, and deploy AI infrastructure tailored to you.</p>
+    <div class="deep-dives-grid">
+      <div class="deep-card reveal"><span class="deep-card-icon">🤖</span><h3>AI Agents & Digital Employees</h3><p>Purpose-built AI agents that operate inside your business context — your SOPs, regulations, workflows, and institutional knowledge. Not generic chatbots.</p>
+        <ul class="deep-features"><li>Works 24/7 on repetitive, time-consuming tasks</li><li>Trained on your documents, policies, and processes</li><li>Gets smarter over time through interaction</li><li>Connects to your tools via APIs and MCP servers</li><li>Scoped for one function or your entire workflow</li></ul></div>
+      <div class="deep-card reveal"><span class="deep-card-icon">📁</span><h3>Dead Docs Initiative</h3><p>Most businesses sit on a goldmine of untapped data — PDFs, old spreadsheets, paper forms. AI can't use any of it. We fix that.</p>
+        <div class="process-steps">
+          <div class="process-step"><div class="process-step-num">1</div><h5>Extract</h5><p>All files & formats</p></div>
+          <div class="process-step"><div class="process-step-num">2</div><h5>Structure</h5><p>Cloud database</p></div>
+          <div class="process-step"><div class="process-step-num">3</div><h5>Modernize</h5><p>Digital forms</p></div>
+          <div class="process-step"><div class="process-step-num">4</div><h5>Visualize</h5><p>KPI dashboards</p></div>
+          <div class="process-step"><div class="process-step-num">5</div><h5>Automate</h5><p>Live workflows</p></div>
+        </div></div>
+      <div class="deep-card reveal"><span class="deep-card-icon">💳</span><h3>Expenditure & P-Card Monitoring</h3><p>Snap a receipt photo or upload a PDF — AI handles the rest. No more manual reconciliation, no more hours lost to spreadsheets.</p>
+        <ul class="deep-features"><li>Mobile photo capture & PDF upload</li><li>AI-powered data extraction & categorization</li><li>Centralized reporting dashboard</li><li>AI-assisted pricing checks for vendor negotiation</li><li>Scales to mid-market with SaaS subscription model</li></ul></div>
+      <div class="deep-card reveal"><span class="deep-card-icon">📣</span><h3>Customer Engagement Automation</h3><p>Keep customers coming back — automatically. CRM-level results without the CRM complexity or price tag.</p>
+        <ul class="deep-features"><li>Automated review responses in your brand voice</li><li>Win-back campaigns for dormant customers</li><li>SMS or email — your choice of channel</li><li>Fully automated or human-approved — your call</li><li>Improves local SEO as a built-in side benefit</li></ul></div>
+      <div class="deep-card reveal"><span class="deep-card-icon">📲</span><h3>Social Media & Content Pipeline</h3><p>A full marketing team in a box. Trend monitoring, AI drafting, and scheduled publishing — all in your brand's voice.</p>
+        <ul class="deep-features"><li>Daily scraping of trending topics in your industry</li><li>AI drafts posts, blogs, and captions in your voice</li><li>Human-in-the-loop, automated, or hybrid</li><li>Scheduled publishing across X, LinkedIn, Facebook</li><li>Consistent presence without the agency fees</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section class="training-section" id="training">
+  <div class="section-inner">
+    <div class="section-label">Education & Training</div>
+    <h2 class="section-title">Training built around <span class="grad">your team's reality</span></h2>
+    <p class="section-sub">On-site or virtual sessions for teams and individuals across five focused learning paths. Every engagement is tailored — never generic.</p>
+    <div class="training-grid">
+      <div class="path-card reveal"><span class="path-level level-basic">Basic</span><h4>ChatGPT for Small Business</h4><p>For teams new to AI. Covers everyday applications — drafting communications, customer responses, research, and time-saving workflows. No technical background needed.</p></div>
+      <div class="path-card reveal"><span class="path-level level-intermediate">Intermediate</span><h4>Claude Cowork</h4><p>Advanced prompting, document workflows, research, and analysis using Claude as a collaborative business tool. For teams ready to go beyond the basics.</p></div>
+      <div class="path-card reveal"><span class="path-level level-intermediate">Intermediate</span><h4>Claude Design</h4><p>Build dashboards, reports, and polished deliverables using Claude's design and artifact capabilities — no designer or developer required.</p></div>
+      <div class="path-card reveal"><span class="path-level level-advanced">Advanced</span><h4>AI Operating System Design</h4><p>Architect a complete AI-powered operating system for your business. Tool selection, data flow, API connectivity, and building a scalable AI stack from the ground up.</p></div>
+      <div class="path-card reveal"><span class="path-level level-advanced">Advanced</span><h4>Hermes Agent / Claude Bot Setup</h4><p>Hands-on agent and bot deployment using Hermes and Claude. Define roles, feed business context, connect to live data, and set up continuous improvement loops.</p></div>
+    </div>
+    <div class="training-pricing">
+      <div class="training-price-card reveal"><h4>Group Classes</h4><div class="price">$199<span>/person</span></div><div class="price-note">4-hour session · Teams of any size</div></div>
+      <div class="training-price-card reveal"><h4>Individual Sessions</h4><div class="price">$279<span>/hour</span></div><div class="price-note">One-on-one · Fully personalized</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="section-inner">
+    <div class="section-label">Why Hypernova AI</div>
+    <h2 class="section-title">Honest experts who <span class="grad">actually build things</span></h2>
+    <div class="why-grid">
+      <div class="why-card reveal"><span class="why-icon">👂</span><h4>We start by listening</h4><p>Every engagement starts with understanding your business — not pitching a product. The audit exists so we truly know what you need before we recommend anything.</p></div>
+      <div class="why-card reveal"><span class="why-icon">🎯</span><h4>Everything is customized</h4><p>No templates. No one-size-fits-all packages. Every recommendation, build, and training session is calibrated to your specific business and goals.</p></div>
+      <div class="why-card reveal"><span class="why-icon">🔧</span><h4>We advise and we build</h4><p>Most consultants tell you what to do and leave. We stay and build it — from agents and databases to content pipelines and dashboards.</p></div>
+      <div class="why-card reveal"><span class="why-icon">🚀</span><h4>Bottom-up by design</h4><p>We believe real AI transformation starts at the ground level — your data and daily workflows — not dictated from the top down. That's how it sticks.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-inner">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Transparent pricing. <span class="grad">No surprises.</span></h2>
+    <p class="section-sub">Simple, honest pricing for every service we offer.</p>
+    <table class="pricing-table reveal">
+      <thead><tr><th>Service</th><th>Description</th><th>Pricing</th></tr></thead>
+      <tbody>
+        <tr><td>⭐ AI Audit</td><td>Discovery session + AI Readiness Report + follow-up call</td><td>$199 flat fee</td></tr>
+        <tr><td>🎓 Group Training</td><td>4-hour tailored seminar for teams</td><td>$199 / person</td></tr>
+        <tr><td>🎓 Individual Training</td><td>One-on-one personalized sessions</td><td>$279 / hour</td></tr>
+        <tr><td>🤖 AI Agent Implementation</td><td>Custom digital employees built for your business</td><td>Custom quote</td></tr>
+        <tr><td>📁 Dead Docs Initiative</td><td>Data extraction, structuring, modernization & automation</td><td>Custom quote</td></tr>
+        <tr><td>💳 Expenditure Monitoring</td><td>AI-powered expense tracking & reporting system</td><td>Setup + optional subscription</td></tr>
+        <tr><td>💬 Customer Engagement</td><td>Automated review responses & re-engagement</td><td>Setup + optional retainer</td></tr>
+        <tr><td>📱 Content Pipeline</td><td>Trend monitoring, AI content & social publishing</td><td>Setup + optional retainer</td></tr>
+      </tbody>
+    </table>
+    <p class="pricing-note">Not sure where to start? The AI Audit tells you everything — and it's only $199.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-inner">
+    <div class="contact-inner">
+      <div>
+        <div class="section-label">Get Started</div>
+        <h2 class="section-title">Start with an audit. <span class="grad">See what's possible.</span></h2>
+        <p class="section-sub">Tell us about your business. We'll take it from there — no pressure, no jargon, just honest advice about what AI can actually do for you.</p>
+        <ul class="contact-details">
+          <li><span class="ci">📧</span>hello@hypernovaai.com</li>
+          <li><span class="ci">📞</span>(555) 000-0000</li>
+          <li><span class="ci">📍</span>Serving SMBs & Government Agencies Nationwide</li>
+          <li><span class="ci">🕐</span>Responses within 1 business day</li>
+        </ul>
+      </div>
+      <div class="contact-form reveal">
+        <div class="form-row">
+          <div class="form-group"><label>Your Name</label><input type="text" placeholder="Jane Smith"></div>
+          <div class="form-group"><label>Business Name</label><input type="text" placeholder="Acme Co."></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Email</label><input type="email" placeholder="jane@acme.com"></div>
+          <div class="form-group"><label>Phone</label><input type="tel" placeholder="(555) 000-0000"></div>
+        </div>
+        <div class="form-group"><label>Where are you losing the most time in your business?</label><textarea placeholder="Tell us about your biggest daily frustrations — manual tasks, data issues, reporting, customer follow-up, anything..."></textarea></div>
+        <button class="form-submit">Book My AI Audit — $199 →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo-row">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="fcore" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"/><stop offset="20%" stop-color="#fff3c4"/><stop offset="45%" stop-color="#ffd166"/><stop offset="70%" stop-color="#f3722c"/><stop offset="100%" stop-color="#7209b7"/></radialGradient>
+          <radialGradient id="fdisc" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffe8a3" stop-opacity="0.95"/><stop offset="40%" stop-color="#f72585" stop-opacity="0.7"/><stop offset="100%" stop-color="#4361ee" stop-opacity="0"/></radialGradient>
+        </defs>
+        <g transform="translate(50,50)">
+          <g transform="rotate(-25)"><ellipse cx="0" cy="0" rx="42" ry="13" fill="url(#fdisc)"/></g>
+          <g stroke="#ffd166" stroke-width="1.5" stroke-linecap="round"><line x1="-22" y1="0" x2="-14" y2="0"/><line x1="22" y1="0" x2="14" y2="0"/></g>
+          <circle cx="0" cy="0" r="12" fill="url(#fcore)"/><circle cx="0" cy="0" r="4" fill="#fff"/>
+        </g>
+      </svg>
+      <div>
+        <div class="footer-logo-text">HYPERNOVA AI</div>
+        <div class="footer-tagline">Smart technology. Honest advice. Real results.</div>
+      </div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#audit">AI Audit</a></li>
+      <li><a href="#training">Training</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="footer-copy">© 2026 Hypernova AI. All rights reserved. · AI Automation for Business & Government</div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), entry.target.dataset.delay || 0);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .problem-item, .service-card').forEach((el, i) => {
+    el.dataset.delay = (i % 4) * 90;
+    observer.observe(el);
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+</body>
+</html>
