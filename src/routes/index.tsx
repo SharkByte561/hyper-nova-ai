@@ -27,7 +27,10 @@ import {
   MapPinned,
   type LucideIcon,
 } from "lucide-react";
-import heroVideo from "@/assets/hero.mp4.asset.json";
+
+// Hero background video, served as a static asset from /public so it loads
+// in local dev and production alike.
+const HERO_VIDEO = "/hyper_nova_ai.mp4";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -139,7 +142,7 @@ function Hero() {
         preload="auto"
         poster=""
       >
-        <source src={heroVideo.url} type="video/mp4" />
+        <source src={HERO_VIDEO} type="video/mp4" />
       </video>
       {/* Overlays */}
       <div
@@ -147,7 +150,7 @@ function Hero() {
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(180deg, rgba(21,23,26,0.25) 0%, rgba(21,23,26,0.35) 55%, rgba(21,23,26,0.78) 100%)",
+            "linear-gradient(180deg, rgba(21,23,26,0.12) 0%, rgba(21,23,26,0.28) 55%, rgba(21,23,26,0.72) 100%)",
         }}
       />
       <div aria-hidden className="dot-grid absolute inset-0 -z-10 opacity-20" />
