@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
+  ArrowUpRight,
   ChevronRight,
   Check,
   Cpu,
@@ -520,6 +521,8 @@ type DeepCard = {
   body: string;
   features?: string[];
   process?: { n: string; title: string; sub: string }[];
+  href?: string;
+  hrefLabel?: string;
 };
 
 const DEEP_CARDS: DeepCard[] = [
@@ -546,6 +549,8 @@ const DEEP_CARDS: DeepCard[] = [
       { n: "4", title: "Visualize", sub: "KPI dashboards" },
       { n: "5", title: "Automate", sub: "Live workflows" },
     ],
+    href: "https://dead-docs.com/",
+    hrefLabel: "Explore Dead Docs",
   },
   {
     icon: Receipt,
@@ -600,10 +605,17 @@ function Implementation() {
       </p>
 
       <div className="mt-14 grid gap-6 md:grid-cols-2">
-        {DEEP_CARDS.map((c) => (
-          <article
+        {DEEP_CARDS.map((c) => {
+          const Tag = c.href ? "a" : "article";
+          return (
+          <Tag
             key={c.title}
-            className="flex flex-col rounded-lg border border-border bg-card p-8 transition hover:border-primary"
+            {...(c.href
+              ? { href: c.href, target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+            className={`group flex flex-col rounded-lg border border-border bg-card p-8 transition hover:border-primary ${
+              c.href ? "cursor-pointer hover:bg-card/80" : ""
+            }`}
           >
             <span className="grid h-12 w-12 place-items-center rounded-md border border-border bg-background text-primary">
               <c.icon className="h-5 w-5" />
@@ -635,8 +647,16 @@ function Implementation() {
                 ))}
               </div>
             )}
-          </article>
-        ))}
+
+            {c.href && (
+              <span className="mt-auto inline-flex items-center gap-1.5 pt-6 font-heading text-sm text-primary">
+                {c.hrefLabel ?? "Learn more"}
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
+            )}
+          </Tag>
+          );
+        })}
       </div>
     </section>
   );
