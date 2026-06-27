@@ -5,7 +5,6 @@ import {
   ArrowUpRight,
   ChevronRight,
   Check,
-  Cpu,
   Mail,
   Phone,
   MapPin,
@@ -90,9 +89,7 @@ function Nav() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <a href="#top" className="flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-primary text-primary-foreground">
-            <Cpu className="h-4 w-4" />
-          </span>
+          <img src="/hypernova-icon.png" alt="" aria-hidden="true" className="h-8 w-8 object-contain" />
           <span className="font-heading text-xl tracking-wide">{COMPANY}</span>
         </a>
         <nav className="hidden gap-8 md:flex">
@@ -1026,9 +1023,7 @@ function Footer() {
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-md bg-primary text-primary-foreground">
-              <Cpu className="h-4 w-4" />
-            </span>
+            <img src="/hypernova-icon.png" alt="" aria-hidden="true" className="h-8 w-8 object-contain" />
             <span className="font-heading text-xl">{COMPANY}</span>
           </div>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
