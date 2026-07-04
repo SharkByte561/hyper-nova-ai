@@ -16,6 +16,7 @@ import {
   Banknote,
   GraduationCap,
   Bot,
+  Clapperboard,
   Receipt,
   MessageSquare,
   Smartphone,
@@ -580,6 +581,19 @@ const DEEP_CARDS: DeepCard[] = [
     ],
   },
   {
+    icon: Clapperboard,
+    title: "Listing Walkthrough Videos",
+    body: "For real estate agents: we turn the listing photos you already have into cinematic walkthrough videos. No shoot, no crew — delivered in 24–48 hours.",
+    features: [
+      "Cinematic room-by-room edit from your existing photos",
+      "16:9 MLS master + 9:16 cut for Reels & TikTok",
+      "AI-written listing script & social captions",
+      "From $99 per listing — first video just $49",
+    ],
+    href: "/walkthroughs",
+    hrefLabel: "See it in motion",
+  },
+  {
     icon: Smartphone,
     title: "Social Media & Content Pipeline",
     body: "A full marketing team in a box. Trend monitoring, AI drafting, and scheduled publishing — all in your brand's voice.",
@@ -614,7 +628,13 @@ function Implementation() {
           <Tag
             key={c.title}
             {...(c.href
-              ? { href: c.href, target: "_blank", rel: "noopener noreferrer" }
+              ? {
+                  href: c.href,
+                  // Only external links leave the site in a new tab.
+                  ...(c.href.startsWith("http")
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {}),
+                }
               : {})}
             className={`group flex flex-col rounded-lg border border-border bg-card p-8 transition hover:border-primary ${
               c.href ? "cursor-pointer hover:bg-card/80" : ""
