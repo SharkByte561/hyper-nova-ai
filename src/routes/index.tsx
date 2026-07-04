@@ -553,7 +553,7 @@ const DEEP_CARDS: DeepCard[] = [
       { n: "4", title: "Visualize", sub: "KPI dashboards" },
       { n: "5", title: "Automate", sub: "Live workflows" },
     ],
-    href: "https://dead-docs.com/",
+    href: "/dead-docs",
     hrefLabel: "Explore Dead Docs",
   },
   {
