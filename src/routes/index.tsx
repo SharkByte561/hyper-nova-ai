@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -107,6 +107,12 @@ function Nav() {
               {label}
             </a>
           ))}
+          <Link
+            to="/walkthroughs"
+            className="text-sm font-bold text-primary transition hover:brightness-110"
+          >
+            Walkthroughs
+          </Link>
         </nav>
         <a
           href="#contact"
