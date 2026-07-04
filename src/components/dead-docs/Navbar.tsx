@@ -18,10 +18,30 @@ export default function Navbar() {
       <nav
         className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between bg-[#15171a] px-6"
       >
-        {/* Logo */}
-        <Link to="/dead-docs" className="shrink-0 font-display text-white text-xl">
-          DEAD DOCS
-        </Link>
+        {/* Logo — Hypernova AI (back to main site) / Dead Docs */}
+        <div className="flex shrink-0 items-center gap-3">
+          <Link
+            to="/"
+            className="flex items-center gap-2 opacity-80 transition hover:opacity-100"
+            title="Back to Hypernova AI"
+          >
+            <img
+              src="/hypernova-icon.png"
+              alt=""
+              aria-hidden="true"
+              className="h-8 w-8 object-contain"
+            />
+            <span className="font-display hidden text-sm text-white/70 sm:inline">
+              HYPERNOVA AI
+            </span>
+          </Link>
+          <span aria-hidden="true" className="text-white/25">
+            /
+          </span>
+          <Link to="/dead-docs" className="font-display text-xl text-white">
+            DEAD DOCS
+          </Link>
+        </div>
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">

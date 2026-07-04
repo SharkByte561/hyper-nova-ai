@@ -114,6 +114,12 @@ function Nav() {
           >
             Walkthroughs
           </Link>
+          <Link
+            to="/dead-docs"
+            className="text-sm text-muted-foreground transition hover:text-foreground"
+          >
+            Dead Docs
+          </Link>
         </nav>
         <a
           href="#contact"
