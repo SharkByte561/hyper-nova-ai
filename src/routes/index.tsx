@@ -30,7 +30,7 @@ import {
 
 // Hero background video, served as a static asset from /public so it loads
 // in local dev and production alike.
-const HERO_VIDEO = "/hyper_nova_ai.mp4";
+const HERO_VIDEO = "/hyper_nova_hero.mp4";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -137,8 +137,9 @@ function Hero() {
   return (
     <section id="top" className="relative w-full overflow-hidden">
       {/* Brand video banner — plays/loops at the top of the page.
-          Capped at the source's native width (1280px) and centered so it never
-          upscales/distorts on ultra-wide displays; gutters fall back to the page bg. */}
+          Capped at 1280px and centered so it never stretches across ultra-wide
+          displays; the 1920px-wide source downscales into it. Gutters fall back
+          to the page bg. */}
       <div className="relative mx-auto w-full max-w-[1280px]">
         <video
           ref={videoRef}
