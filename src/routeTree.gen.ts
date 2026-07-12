@@ -9,38 +9,82 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WalkthroughsRouteImport } from './routes/walkthroughs'
+import { Route as DeadDocsRouteImport } from './routes/dead-docs'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DeadDocsContactRouteImport } from './routes/dead-docs_.contact'
 
+const WalkthroughsRoute = WalkthroughsRouteImport.update({
+  id: '/walkthroughs',
+  path: '/walkthroughs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeadDocsRoute = DeadDocsRouteImport.update({
+  id: '/dead-docs',
+  path: '/dead-docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeadDocsContactRoute = DeadDocsContactRouteImport.update({
+  id: '/dead-docs_/contact',
+  path: '/dead-docs/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dead-docs': typeof DeadDocsRoute
+  '/walkthroughs': typeof WalkthroughsRoute
+  '/dead-docs/contact': typeof DeadDocsContactRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dead-docs': typeof DeadDocsRoute
+  '/walkthroughs': typeof WalkthroughsRoute
+  '/dead-docs/contact': typeof DeadDocsContactRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dead-docs': typeof DeadDocsRoute
+  '/walkthroughs': typeof WalkthroughsRoute
+  '/dead-docs_/contact': typeof DeadDocsContactRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/dead-docs' | '/walkthroughs' | '/dead-docs/contact'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/dead-docs' | '/walkthroughs' | '/dead-docs/contact'
+  id: '__root__' | '/' | '/dead-docs' | '/walkthroughs' | '/dead-docs_/contact'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DeadDocsRoute: typeof DeadDocsRoute
+  WalkthroughsRoute: typeof WalkthroughsRoute
+  DeadDocsContactRoute: typeof DeadDocsContactRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/walkthroughs': {
+      id: '/walkthroughs'
+      path: '/walkthroughs'
+      fullPath: '/walkthroughs'
+      preLoaderRoute: typeof WalkthroughsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dead-docs': {
+      id: '/dead-docs'
+      path: '/dead-docs'
+      fullPath: '/dead-docs'
+      preLoaderRoute: typeof DeadDocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dead-docs_/contact': {
+      id: '/dead-docs_/contact'
+      path: '/dead-docs/contact'
+      fullPath: '/dead-docs/contact'
+      preLoaderRoute: typeof DeadDocsContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DeadDocsRoute: DeadDocsRoute,
+  WalkthroughsRoute: WalkthroughsRoute,
+  DeadDocsContactRoute: DeadDocsContactRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
