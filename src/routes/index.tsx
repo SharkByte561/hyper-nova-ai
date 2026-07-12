@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -28,13 +28,6 @@ import {
   MapPinned,
   type LucideIcon,
 } from "lucide-react";
-
-// Hero background video, served as a static asset from /public so it loads
-// in local dev and production alike.
-const HERO_VIDEO = "/hyper_nova_hero.mp4";
-// Shown until the first frame decodes, and left standing if a browser refuses
-// autoplay entirely — so the hero is a branded frame rather than a black box.
-const HERO_POSTER = "/hyper_nova_hero.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -136,103 +129,19 @@ function Nav() {
 }
 
 function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Mobile browsers only grant autoplay to a video that is *genuinely* muted
-  // and playing inline, and they check the DOM properties — not the markup.
-  // Hydration can leave those as attributes alone, which is enough for desktop
-  // (it is far more permissive) but gets playback rejected on iOS/Android,
-  // leaving the user looking at a play button. So assert them on the node
-  // itself, then keep retrying: a single `play()` on `canplay` is one shot, and
-  // if it is refused nothing ever tries again.
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-
-    v.muted = true;
-    v.defaultMuted = true;
-    v.playsInline = true;
-    v.setAttribute("muted", "");
-    v.setAttribute("playsinline", "");
-    v.setAttribute("webkit-playsinline", ""); // older iOS
-    v.removeAttribute("controls");
-
-    let done = false;
-    const play = () => {
-      if (done || !v.paused) return;
-      void v.play().then(
-        () => {
-          done = true;
-        },
-        () => {
-          /* refused — a later event or the gesture fallback will retry */
-        },
-      );
-    };
-
-    play();
-    v.addEventListener("loadedmetadata", play);
-    v.addEventListener("loadeddata", play);
-    v.addEventListener("canplay", play);
-
-    // Last resort: some conditions refuse programmatic playback outright (iOS
-    // Low Power Mode, Android Data Saver). Start on the first user gesture so
-    // the hero is never stuck on a play button.
-    const gesture = () => play();
-    document.addEventListener("touchstart", gesture, { passive: true });
-    document.addEventListener("click", gesture);
-
-    // Playback is suspended when the tab is backgrounded; resume on return.
-    const onVisible = () => {
-      if (!document.hidden) play();
-    };
-    document.addEventListener("visibilitychange", onVisible);
-
-    return () => {
-      v.removeEventListener("loadedmetadata", play);
-      v.removeEventListener("loadeddata", play);
-      v.removeEventListener("canplay", play);
-      document.removeEventListener("touchstart", gesture);
-      document.removeEventListener("click", gesture);
-      document.removeEventListener("visibilitychange", onVisible);
-    };
-  }, []);
-
   return (
     <section id="top" className="relative w-full overflow-hidden">
-      {/* Brand video banner — plays/loops at the top of the page.
-          Capped at 1280px and centered so it never stretches across ultra-wide
-          displays; the 1600px-wide source downscales into it. Gutters fall back
-          to the page bg.
-
-          On phones the frame is shown at its native 16:9 (aspect-video) rather
-          than cropped to a viewport height: the wordmark sits on the right of
-          the frame, and object-cover in a near-square box slices it off. From
-          `sm` up the viewport is wide enough that cropping only takes off the
-          top and bottom, so the taller fixed heights come back. */}
-      <div className="relative mx-auto w-full max-w-[1280px]">
-        <video
-          ref={videoRef}
-          className="block aspect-video w-full object-cover sm:aspect-auto sm:h-[50vh] lg:h-[58vh]"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          poster={HERO_POSTER}
-          controls={false}
-          disablePictureInPicture
-        >
-          <source src={HERO_VIDEO} type="video/mp4" />
-        </video>
-        {/* Fade the bottom edge of the video into the page background */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-background"
-        />
+      {/* Brand wordmark, standing where the video banner used to. `AI` breaks to
+          its own line below `sm` so HYPERNOVA is never hyphenated on a phone. */}
+      <div className="mx-auto w-full max-w-[1280px] px-6 pb-4 pt-14 md:pb-6 md:pt-20">
+        <p className="font-heading text-center text-6xl leading-[0.92] sm:text-7xl md:text-8xl lg:text-[8rem]">
+          HYPERNOVA
+          <br className="sm:hidden" />
+          <span className="text-primary text-glow-lime"> AI</span>
+        </p>
       </div>
 
-      {/* Headline + copy, directly under the video */}
+      {/* Headline + copy */}
       <div className="mx-auto max-w-7xl px-6 pb-20 pt-10 md:pt-14">
         <p className="font-mono-eyebrow mb-6 inline-flex items-center gap-2">
           <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
