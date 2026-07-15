@@ -85,10 +85,6 @@ function Nav() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <a href="#top" className="flex items-center gap-2">
-          <img src="/hypernova-icon.png" alt="" aria-hidden="true" className="h-[46px] w-[46px] object-contain" />
-          <span className="font-heading text-xl tracking-wide">{COMPANY}</span>
-        </a>
         <nav className="hidden gap-8 md:flex">
           {[
             ["Services", "#services"],
@@ -131,10 +127,16 @@ function Nav() {
 function Hero() {
   return (
     <section id="top" className="relative w-full overflow-hidden">
-      {/* Brand wordmark, standing where the video banner used to. `AI` breaks to
-          its own line below `sm` so HYPERNOVA is never hyphenated on a phone. */}
-      <div className="mx-auto w-full max-w-[1280px] px-6 pb-4 pt-14 md:pb-6 md:pt-20">
-        <p className="font-heading text-center text-6xl leading-[0.92] sm:text-7xl md:text-8xl lg:text-[8rem]">
+      {/* Brand lockup: the full logo mark as a big picture, with the HYPERNOVA AI
+          wordmark right underneath it. `AI` breaks to its own line below `sm` so
+          HYPERNOVA is never hyphenated on a phone. */}
+      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center px-6 pb-4 pt-14 md:pb-6 md:pt-20">
+        <img
+          src="/hypernova-logo.png"
+          alt="Hypernova AI logo"
+          className="w-full max-w-[560px] object-contain md:max-w-[640px]"
+        />
+        <p className="font-heading -mt-2 text-center text-5xl leading-[0.92] sm:text-6xl md:-mt-4 md:text-7xl lg:text-8xl">
           HYPERNOVA
           <br className="sm:hidden" />
           <span className="text-primary text-glow-lime"> AI</span>
